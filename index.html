@@ -1,0 +1,60 @@
+<style>
+  html {
+    background-color: #ffe2d6;
+    font-family: 'Courier New', monospace;
+  }
+  input {
+    width: 50%;
+    line-height: 2em;
+    text-align: center;
+  }
+  button {
+    width: 50%;
+    line-height: 2em;
+    text-align: center;
+    background-color: #FA8072;
+  }
+  .container {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+</style>
+
+<div class="container">
+  <h1>Calldata Generator</h1>
+  <h2>Used for DAO Proposals</h2>
+  <h3>ABI</h3>
+  <input id="abi" value='[ { "anonymous": false, "inputs": [ { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" }, { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "OwnershipTransferred", "type": "event" }, { "inputs": [], "name": "owner", "outputs": [ { "internalType": "address", "name": "", "type": "address" } ], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "renounceOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "uint256", "name": "_newValue", "type": "uint256" } ], "name": "store", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address", "name": "newOwner", "type": "address" } ], "name": "transferOwnership", "outputs": [], "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "name": "value", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "stateMutability": "view", "type": "function" } ]' />
+  <h3>Method</h3>
+  <input id="method" value="store" />
+  <h3>Params</h3>
+  <input id="params" value="[1]" />
+  <br /><br />
+  <button onClick="generateCalldata()">Generate</button>
+  <br /><br />
+  <h3 id="callData"></h3>
+</div>
+
+<script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+<script>
+  generateCalldata();
+  async function generateCalldata() {
+    try {
+      const provider = new ethers.providers.JsonRpcProvider();
+      const abi = document.getElementById("abi").value;
+      const method = document.getElementById("method").value;
+      const params = document.getElementById("params").value;
+      const Contract = new ethers.Contract("0x0000000000000000000000000000000000000000", abi, provider);
+      const { data } = await Contract.populateTransaction[method](...JSON.parse(params));
+      console.log(data);
+      document.getElementById("callData").innerHTML = data;
+    } catch (error) {
+      console.log(error);
+      document.getElementById("callData").innerHTML = error.message;
+    }
+  }
+</script>
