@@ -22,6 +22,10 @@ button {
   background-color: #fa8072;
   border: none;
 }
+button:hover {
+  cursor: cell;
+  background-color: #f67061;
+}
 code {
   font-size: 1em;
   width: 50%;
