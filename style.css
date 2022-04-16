@@ -12,6 +12,9 @@ input {
   text-align: center;
   border: none;
 }
+input:focus {
+  outline: 1px solid #fa8072;
+}
 button {
   width: 666px;
   line-height: 2em;
