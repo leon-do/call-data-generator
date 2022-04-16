@@ -1,0 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap");
+
+* {
+  font-family: "Nova Mono", monospace;
+}
+html {
+  background-color: #ffe2d6;
+}
+input {
+  width: 666px;
+  line-height: 2em;
+  text-align: center;
+  border: none;
+}
+button {
+  width: 666px;
+  line-height: 2em;
+  text-align: center;
+  background-color: #fa8072;
+  border: none;
+}
+code {
+  font-size: 1em;
+  width: 50%;
+  text-align: center;
+}
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  word-break: break-all;
+}
