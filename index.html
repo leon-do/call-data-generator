@@ -4,12 +4,12 @@
     font-family: "Courier New", monospace;
   }
   input {
-    width: 50%;
+    width: 666px;
     line-height: 2em;
     text-align: center;
   }
   button {
-    width: 50%;
+    width: 666px;
     line-height: 2em;
     text-align: center;
     background-color: #fa8072;
@@ -23,9 +23,10 @@
     align-items: center;
     word-break: break-all;
   }
-  #callData {
+  code {
     font-size: 1.5em;
     width: 50%;
+    text-align: center;
   }
 </style>
 
@@ -38,10 +39,12 @@
   <input id="method" value="mint" />
   <h3>Params</h3>
   <input id="params" value='["0xdD4c825203f97984e7867F11eeCc813A036089D1", 5]'' />
+  <h3>Description</h3>
+  <input id="description" value="sdfsdfsd" />
   <br /><br />
   <button onClick="generateCalldata()">Generate</button>
   <br /><br />
-  <code id="callData"></code>
+  <code id="response"></code>
 </div>
 
 <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
@@ -54,8 +57,9 @@
       const params = document.getElementById("params").value;
       const Contract = new ethers.Contract("0x0000000000000000000000000000000000000000", abi, provider);
       const { data } = await Contract.populateTransaction[method](...JSON.parse(params));
-      console.log(data);
-      document.getElementById("callData").innerHTML = data;
+      const descriptionHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(document.getElementById("description").value));
+      console.log({ data, descriptionHash });
+      document.getElementById("response").innerHTML = `Call Data: ${data}<br /> <br/> Description Hash: ${descriptionHash}`;
     } catch (error) {
       console.log(error);
       document.getElementById("callData").innerHTML = error.message;
